@@ -234,9 +234,33 @@ int CastPyArg2AttrInt(PyObject* obj, ssize_t arg_pos) {
   }
 }
 
+uint32_t CastPyArg2AttrUInt32(PyObject* obj, ssize_t arg_pos) {
+  if (PyObject_CheckLong(obj)) {
+    return PyObject_ToUInt32(obj);
+  } else {
+    PADDLE_THROW(common::errors::InvalidType(
+        "argument (position %d) must be "
+        "int, but got %s",
+        arg_pos + 1,
+        (reinterpret_cast<PyTypeObject*>(obj->ob_type))->tp_name));
+  }
+}
+
 int64_t CastPyArg2AttrLong(PyObject* obj, ssize_t arg_pos) {
   if (PyObject_CheckLong(obj)) {
     return PyObject_ToInt64(obj);
+  } else {
+    PADDLE_THROW(common::errors::InvalidType(
+        "argument (position %d) must be "
+        "long, but got %s",
+        arg_pos + 1,
+        (reinterpret_cast<PyTypeObject*>(obj->ob_type))->tp_name));
+  }
+}
+
+uint64_t CastPyArg2AttrUInt64(PyObject* obj, ssize_t arg_pos) {
+  if (PyObject_CheckLong(obj)) {
+    return PyObject_ToUInt64(obj);
   } else {
     PADDLE_THROW(common::errors::InvalidType(
         "argument (position %d) must be "
@@ -261,6 +285,18 @@ size_t CastPyArg2AttrSize_t(PyObject* obj, ssize_t arg_pos) {
 float CastPyArg2AttrFloat(PyObject* obj, ssize_t arg_pos) {
   if (PyObject_CheckFloat(obj)) {
     return static_cast<float>(PyObject_ToDouble(obj));
+  } else {
+    PADDLE_THROW(common::errors::InvalidType(
+        "argument (position %d) must be "
+        "float, but got %s",
+        arg_pos + 1,
+        (reinterpret_cast<PyTypeObject*>(obj->ob_type))->tp_name));
+  }
+}
+
+double CastPyArg2AttrDouble(PyObject* obj, ssize_t arg_pos) {
+  if (PyObject_CheckFloat(obj)) {
+    return PyObject_ToDouble(obj);
   } else {
     PADDLE_THROW(common::errors::InvalidType(
         "argument (position %d) must be "
@@ -465,6 +501,54 @@ std::vector<int> CastPyArg2VectorOfInt(PyObject* obj, size_t arg_pos) {
   return result;
 }
 
+std::vector<uint32_t> CastPyArg2VectorOfUInt32(PyObject* obj, size_t arg_pos) {
+  std::vector<uint32_t> result;
+  if (PyList_Check(obj)) {
+    Py_ssize_t len = PyList_Size(obj);
+    PyObject* item = nullptr;
+    for (Py_ssize_t i = 0; i < len; i++) {
+      item = PyList_GET_ITEM(obj, i);
+      if (PyObject_CheckLong(item)) {
+        result.emplace_back(PyObject_ToUInt32(item));
+      } else {
+        PADDLE_THROW(common::errors::InvalidType(
+            "argument (position %d) must be "
+            "list of uint32_t, but got %s at pos %d",
+            arg_pos + 1,
+            reinterpret_cast<PyTypeObject*>(item->ob_type)->tp_name,
+            i));
+      }
+    }
+  } else if (PyTuple_Check(obj)) {
+    Py_ssize_t len = PyTuple_Size(obj);
+    PyObject* item = nullptr;
+    for (Py_ssize_t i = 0; i < len; i++) {
+      item = PyTuple_GET_ITEM(obj, i);
+      if (PyObject_CheckLong(item)) {
+        result.emplace_back(PyObject_ToUInt32(item));
+      } else {
+        PADDLE_THROW(common::errors::InvalidType(
+            "argument (position %d) must be "
+            "list of uint32_t, but got %s at pos %d",
+            arg_pos + 1,
+            reinterpret_cast<PyTypeObject*>(item->ob_type)->tp_name,
+            i));
+      }
+    }
+  } else if (obj == Py_None) {
+    return {};
+  } else if (PyObject_CheckLong(obj)) {
+    return {PyObject_ToUInt32(obj)};
+  } else {
+    PADDLE_THROW(common::errors::InvalidType(
+        "argument (position %d) must be "
+        "list or tuple, but got %s",
+        arg_pos + 1,
+        reinterpret_cast<PyTypeObject*>(obj->ob_type)->tp_name));
+  }
+  return result;
+}
+
 std::vector<int64_t> CastPyArg2VectorOfInt64(PyObject* obj, size_t arg_pos) {
   std::vector<int64_t> result;
   if (PyList_Check(obj)) {
@@ -503,6 +587,54 @@ std::vector<int64_t> CastPyArg2VectorOfInt64(PyObject* obj, size_t arg_pos) {
     return {};
   } else if (PyObject_CheckLong(obj)) {
     return {PyObject_ToInt64(obj)};  // NOLINT
+  } else {
+    PADDLE_THROW(common::errors::InvalidType(
+        "argument (position %d) must be "
+        "list or tuple, but got %s",
+        arg_pos + 1,
+        reinterpret_cast<PyTypeObject*>(obj->ob_type)->tp_name));
+  }
+  return result;
+}
+
+std::vector<uint64_t> CastPyArg2VectorOfUInt64(PyObject* obj, size_t arg_pos) {
+  std::vector<uint64_t> result;
+  if (PyList_Check(obj)) {
+    Py_ssize_t len = PyList_Size(obj);
+    PyObject* item = nullptr;
+    for (Py_ssize_t i = 0; i < len; i++) {
+      item = PyList_GET_ITEM(obj, i);
+      if (PyObject_CheckLong(item)) {
+        result.emplace_back(PyObject_ToUInt64(item));
+      } else {
+        PADDLE_THROW(common::errors::InvalidType(
+            "argument (position %d) must be "
+            "list of uint64_t, but got %s at pos %d",
+            arg_pos + 1,
+            reinterpret_cast<PyTypeObject*>(item->ob_type)->tp_name,
+            i));
+      }
+    }
+  } else if (PyTuple_Check(obj)) {
+    Py_ssize_t len = PyTuple_Size(obj);
+    PyObject* item = nullptr;
+    for (Py_ssize_t i = 0; i < len; i++) {
+      item = PyTuple_GET_ITEM(obj, i);
+      if (PyObject_CheckLong(item)) {
+        result.emplace_back(PyObject_ToUInt64(item));
+      } else {
+        PADDLE_THROW(common::errors::InvalidType(
+            "argument (position %d) must be "
+            "list of uint64_t, but got %s at pos %d",
+            arg_pos + 1,
+            reinterpret_cast<PyTypeObject*>(item->ob_type)->tp_name,
+            i));
+      }
+    }
+  } else if (obj == Py_None) {
+    return {};
+  } else if (PyObject_CheckLong(obj)) {
+    return {PyObject_ToUInt64(obj)};  // NOLINT
   } else {
     PADDLE_THROW(common::errors::InvalidType(
         "argument (position %d) must be "
@@ -603,6 +735,54 @@ std::vector<float> CastPyArg2VectorOfFloat(PyObject* obj, size_t arg_pos) {
     PADDLE_THROW(common::errors::InvalidType(
         "argument (position %d) must be "
         "list of float, but got %s",
+        arg_pos + 1,
+        reinterpret_cast<PyTypeObject*>(obj->ob_type)->tp_name));
+  }
+  return result;
+}
+
+std::vector<double> CastPyArg2VectorOfDouble(PyObject* obj, size_t arg_pos) {
+  std::vector<double> result;
+  if (PyList_Check(obj)) {
+    Py_ssize_t len = PyList_Size(obj);
+    PyObject* item = nullptr;
+    for (Py_ssize_t i = 0; i < len; i++) {
+      item = PyList_GetItem(obj, i);
+      if (PyObject_CheckFloat(item)) {
+        result.emplace_back(PyObject_ToDouble(item));
+      } else {
+        PADDLE_THROW(common::errors::InvalidType(
+            "argument (position %d) must be "
+            "list of double, but got %s at pos %d",
+            arg_pos + 1,
+            reinterpret_cast<PyTypeObject*>(item->ob_type)->tp_name,
+            i));
+      }
+    }
+  } else if (PyTuple_Check(obj)) {
+    Py_ssize_t len = PyTuple_Size(obj);
+    PyObject* item = nullptr;
+    for (Py_ssize_t i = 0; i < len; i++) {
+      item = PyTuple_GET_ITEM(obj, i);
+      if (PyObject_CheckFloat(item)) {
+        result.emplace_back(PyObject_ToDouble(item));
+      } else {
+        PADDLE_THROW(common::errors::InvalidType(
+            "argument (position %d) must be "
+            "list of double, but got %s at pos %d",
+            arg_pos + 1,
+            reinterpret_cast<PyTypeObject*>(item->ob_type)->tp_name,
+            i));
+      }
+    }
+  } else if (obj == Py_None) {
+    return {};
+  } else if (PyObject_CheckFloat(obj)) {
+    return {PyObject_ToDouble(obj)};  // NOLINT
+  } else {
+    PADDLE_THROW(common::errors::InvalidType(
+        "argument (position %d) must be "
+        "list of double, but got %s",
         arg_pos + 1,
         reinterpret_cast<PyTypeObject*>(obj->ob_type)->tp_name));
   }

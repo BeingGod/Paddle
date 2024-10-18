@@ -100,9 +100,19 @@ int32_t PD_KernelContextInt32AttrAt(PD_KernelContext* ctx, size_t index) {
   return kernel_context->AttrAt<int32_t>(index);
 }
 
+uint32_t PD_KernelContextUInt32AttrAt(PD_KernelContext* ctx, size_t index) {
+  auto kernel_context = reinterpret_cast<phi::KernelContext*>(ctx);
+  return kernel_context->AttrAt<uint32_t>(index);
+}
+
 int64_t PD_KernelContextInt64AttrAt(PD_KernelContext* ctx, size_t index) {
   auto kernel_context = reinterpret_cast<phi::KernelContext*>(ctx);
   return kernel_context->AttrAt<int64_t>(index);
+}
+
+uint64_t PD_KernelContextUint64AttrAt(PD_KernelContext* ctx, size_t index) {
+  auto kernel_context = reinterpret_cast<phi::KernelContext*>(ctx);
+  return kernel_context->AttrAt<uint64_t>(index);
 }
 
 float PD_KernelContextFloatAttrAt(PD_KernelContext* ctx, size_t index) {
@@ -150,12 +160,30 @@ PD_List PD_KernelContextListInt32AttrAt(PD_KernelContext* ctx, size_t index) {
   return list;
 }
 
+PD_List PD_KernelContextListUInt32AttrAt(PD_KernelContext* ctx, size_t index) {
+  PD_List list;
+  auto kernel_context = reinterpret_cast<phi::KernelContext*>(ctx);
+  const auto& cc_list = kernel_context->AttrAt<std::vector<uint32_t>>(index);
+  list.size = cc_list.size();
+  list.data = const_cast<uint32_t*>(cc_list.data());
+  return list;
+}
+
 PD_List PD_KernelContextListInt64AttrAt(PD_KernelContext* ctx, size_t index) {
   PD_List list;
   auto kernel_context = reinterpret_cast<phi::KernelContext*>(ctx);
   const auto& cc_list = kernel_context->AttrAt<std::vector<int64_t>>(index);
   list.size = cc_list.size();
   list.data = const_cast<int64_t*>(cc_list.data());
+  return list;
+}
+
+PD_List PD_KernelContextListUint64AttrAt(PD_KernelContext* ctx, size_t index) {
+  PD_List list;
+  auto kernel_context = reinterpret_cast<phi::KernelContext*>(ctx);
+  const auto& cc_list = kernel_context->AttrAt<std::vector<uint64_t>>(index);
+  list.size = cc_list.size();
+  list.data = const_cast<uint64_t*>(cc_list.data());
   return list;
 }
 
@@ -252,11 +280,27 @@ PD_List PD_ListInt32Attr(void* attr) {
   return list;
 }
 
+PD_List PD_ListUInt32Attr(void* attr) {
+  PD_List list;
+  const auto& cc_list = *reinterpret_cast<std::vector<uint32_t>*>(attr);
+  list.size = cc_list.size();
+  list.data = const_cast<uint32_t*>(cc_list.data());
+  return list;
+}
+
 PD_List PD_ListInt64Attr(void* attr) {
   PD_List list;
   const auto& cc_list = *reinterpret_cast<std::vector<int64_t>*>(attr);
   list.size = cc_list.size();
   list.data = const_cast<int64_t*>(cc_list.data());
+  return list;
+}
+
+PD_List PD_ListUint64Attr(void* attr) {
+  PD_List list;
+  const auto& cc_list = *reinterpret_cast<std::vector<uint64_t>*>(attr);
+  list.size = cc_list.size();
+  list.data = const_cast<uint64_t*>(cc_list.data());
   return list;
 }
 

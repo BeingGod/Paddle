@@ -73,9 +73,12 @@ bool PyObject_CheckIRValue(PyObject* obj);
 bool PyObject_CheckIRVectorOfValue(PyObject* obj);
 bool CastPyArg2AttrBoolean(PyObject* obj, ssize_t arg_pos);
 int CastPyArg2AttrInt(PyObject* obj, ssize_t arg_pos);
+uint32_t CastPyArg2AttrUInt32(PyObject* obj, ssize_t arg_pos);
 int64_t CastPyArg2AttrLong(PyObject* obj, ssize_t arg_pos);
+uint64_t CastPyArg2AttrUInt64(PyObject* obj, ssize_t arg_pos);
 size_t CastPyArg2AttrSize_t(PyObject* obj, ssize_t arg_pos);
 float CastPyArg2AttrFloat(PyObject* obj, ssize_t arg_pos);
+double CastPyArg2AttrDouble(PyObject* obj, ssize_t arg_pos);
 std::string CastPyArg2AttrString(PyObject* obj, ssize_t arg_pos);
 std::shared_ptr<imperative::VarBase> CastPyArg2VarBase(PyObject* obj,
                                                        ssize_t arg_pos);
@@ -88,9 +91,12 @@ phi::DenseTensor CastPyArg2FrameworkTensor(PyObject* obj, ssize_t arg_pos);
 std::vector<phi::DenseTensor> CastPyArg2VectorOfTensorBase(PyObject* obj,
                                                            ssize_t arg_pos);
 std::vector<int> CastPyArg2VectorOfInt(PyObject* obj, size_t arg_pos);
+std::vector<uint32_t> CastPyArg2VectorOfUInt32(PyObject* obj, size_t arg_pos);
 std::vector<int64_t> CastPyArg2VectorOfInt64(PyObject* obj, size_t arg_pos);
+std::vector<uint64_t> CastPyArg2VectorOfUInt64(PyObject* obj, size_t arg_pos);
 std::vector<size_t> CastPyArg2VectorOfSize_t(PyObject* obj, size_t arg_pos);
 std::vector<float> CastPyArg2VectorOfFloat(PyObject* obj, size_t arg_pos);
+std::vector<double> CastPyArg2VectorOfDouble(PyObject* obj, size_t arg_pos);
 pir::Value CastPyArg2Value(PyObject* obj,
                            const std::string& op_type,
                            size_t arg_pos,

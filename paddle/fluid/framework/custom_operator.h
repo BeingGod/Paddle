@@ -61,11 +61,20 @@ class CustomOpMaker : public OpProtoAndCheckerMaker {
             .SetDefault(false);
       } else if (attr_type_str == "int") {
         AddAttr<int>(attr_name, "custom operator int attribute.").SetDefault(1);
+      } else if (attr_type_str == "uint32_t") {
+        AddAttr<uint32_t>(attr_name, "custom operator uint32_t attribute.")
+            .SetDefault(1);
       } else if (attr_type_str == "float") {
         AddAttr<float>(attr_name, "custom operator float attribute.")
             .SetDefault(1.0f);
+      } else if (attr_type_str == "double") {
+        AddAttr<double>(attr_name, "custom operator double attribute.")
+            .SetDefault(1.0f);
       } else if (attr_type_str == "int64_t") {
         AddAttr<int64_t>(attr_name, "custom operator int64_t attribute.")
+            .SetDefault(1);
+      } else if (attr_type_str == "uint64_t") {
+        AddAttr<uint64_t>(attr_name, "custom operator uint64_t attribute.")
             .SetDefault(1);
       } else if (attr_type_str == "std::string") {
         AddAttr<std::string>(attr_name, "custom operator int attribute.")
@@ -74,13 +83,25 @@ class CustomOpMaker : public OpProtoAndCheckerMaker {
         AddAttr<std::vector<int>>(attr_name,
                                   "custom operator std::vector<int> attribute.")
             .SetDefault({});
+      } else if (attr_type_str == "std::vector<uint32_t>") {
+        AddAttr<std::vector<uint32_t>>(
+            attr_name, "custom operator std::vector<uint32_t> attribute.")
+            .SetDefault({});
       } else if (attr_type_str == "std::vector<float>") {
         AddAttr<std::vector<float>>(
             attr_name, "custom operator std::vector<float> attribute.")
             .SetDefault({});
+      } else if (attr_type_str == "std::vector<double>") {
+        AddAttr<std::vector<double>>(
+            attr_name, "custom operator std::vector<double> attribute.")
+            .SetDefault({});
       } else if (attr_type_str == "std::vector<int64_t>") {
         AddAttr<std::vector<int64_t>>(
             attr_name, "custom operator std::vector<int64_t> attribute.")
+            .SetDefault({});
+      } else if (attr_type_str == "std::vector<uint64_t>") {
+        AddAttr<std::vector<uint64_t>>(
+            attr_name, "custom operator std::vector<uint64_t> attribute.")
             .SetDefault({});
       } else if (attr_type_str == "std::vector<std::string>") {
         AddAttr<std::vector<std::string>>(
@@ -89,9 +110,12 @@ class CustomOpMaker : public OpProtoAndCheckerMaker {
       } else {
         PADDLE_THROW(common::errors::Unimplemented(
             "Unsupported `%s` type value as custom attribute now. "
-            "Supported data types include `bool`, `int`, `float`, "
-            "`int64_t`, `std::string`, `std::vector<int>`, "
-            "`std::vector<float>`, `std::vector<int64_t>`, "
+            "Supported data types include `bool`, `int`, `uint32_t`, `float`, "
+            "`double`"
+            "`int64_t`,`uint64_t`, `std::string`, `std::vector<int>`, "
+            "std::vector<uint32_t>`"
+            "`std::vector<float>`, `std::vector<double>`, "
+            "`std::vector<int64_t>`, `std::vector<uint64_t>`"
             "`std::vector<std::string>`, Please check whether "
             "the attribute data type and data type string are matched.",
             attr_type_str));

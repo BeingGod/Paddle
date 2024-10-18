@@ -75,8 +75,12 @@ void PD_KernelArgsParseFn(const phi::KernelKey& default_key,
       args_def->AppendAttribute(phi::AttributeType::FLOAT64);
     } else if (arg_type == PD_KernelArgumentType::PD_ARG_TYPE_INT32) {
       args_def->AppendAttribute(phi::AttributeType::INT32);
+    } else if (arg_type == PD_KernelArgumentType::PD_ARG_TYPE_UINT32) {
+      args_def->AppendAttribute(phi::AttributeType::UINT32);
     } else if (arg_type == PD_KernelArgumentType::PD_ARG_TYPE_INT64) {
       args_def->AppendAttribute(phi::AttributeType::INT64);
+    } else if (arg_type == PD_KernelArgumentType::PD_ARG_TYPE_UINT64) {
+      args_def->AppendAttribute(phi::AttributeType::UINT64);
     } else if (arg_type == PD_KernelArgumentType::PD_ARG_TYPE_STRING) {
       args_def->AppendAttribute(phi::AttributeType::STRING);
     } else if (arg_type == PD_KernelArgumentType::PD_ARG_TYPE_SCALAR) {
@@ -93,8 +97,12 @@ void PD_KernelArgsParseFn(const phi::KernelKey& default_key,
       args_def->AppendAttribute(phi::AttributeType::BOOLS);
     } else if (arg_type == PD_KernelArgumentType::PD_ARG_TYPE_LIST_INT32) {
       args_def->AppendAttribute(phi::AttributeType::INT32S);
+    } else if (arg_type == PD_KernelArgumentType::PD_ARG_TYPE_LIST_UINT32) {
+      args_def->AppendAttribute(phi::AttributeType::UINT32S);
     } else if (arg_type == PD_KernelArgumentType::PD_ARG_TYPE_LIST_INT64) {
       args_def->AppendAttribute(phi::AttributeType::INT64S);
+    } else if (arg_type == PD_KernelArgumentType::PD_ARG_TYPE_LIST_UINT64) {
+      args_def->AppendAttribute(phi::AttributeType::UINT64S);
     } else if (arg_type == PD_KernelArgumentType::PD_ARG_TYPE_LIST_FLOAT32) {
       args_def->AppendAttribute(phi::AttributeType::FLOAT32S);
     } else if (arg_type == PD_KernelArgumentType::PD_ARG_TYPE_LIST_FLOAT64) {

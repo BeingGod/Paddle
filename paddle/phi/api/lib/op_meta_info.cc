@@ -513,22 +513,30 @@ OpMetaInfoBuilder& OpMetaInfoBuilder::Attrs(std::vector<std::string>&& attrs) {
   const std::unordered_set<std::string> custom_attrs_type(
       {"bool",
        "int",
+       "uint32_t",
        "float",
+       "double",
        "int64_t",
+       "uint64_t",
        "std::string",
        "std::vector<int>",
+       "std::vector<uint32_t>",
        "std::vector<float>",
+       "std::vector<double>",
        "std::vector<int64_t>",
+       "std::vector<uint64_t>",
        "std::vector<std::string>"});
   for (const auto& attr : attrs) {
     auto attr_type_str = ParseAttrStr(attr)[1];
     if (custom_attrs_type.find(attr_type_str) == custom_attrs_type.end()) {
       PADDLE_THROW(common::errors::Unimplemented(
           "Unsupported `%s` type value as custom attribute now. "
-          "Supported data types include `bool`, `int`, `float`, "
-          "`int64_t`, `std::string`, `std::vector<int>`, "
-          "`std::vector<float>`, `std::vector<int64_t>`, "
-          "`std::vector<std::string>`, "
+          "Supported data types include `bool`, `int`,`uint32_t`, `float`, "
+          "`double`"
+          "`int64_t`, `uint64_t`, `std::string`, `std::vector<int>`, "
+          "`std::vector<uint32_t>`, `std::vector<float>`, "
+          "std::vector<double>`, `std::vector<int64_t>`, "
+          "`std::vector<uint64_t>`,`std::vector<std::string>`, "
           "Please check whether the attribute data type and "
           "data type string are matched.",
           attr_type_str));

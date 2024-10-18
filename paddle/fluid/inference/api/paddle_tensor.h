@@ -58,14 +58,15 @@ class InternalUtils;
 enum DataType {
   FLOAT32,
   INT64,
+  UINT64,
   INT32,
+  UINT32,
   UINT8,
   INT8,
   FLOAT16,
   BOOL,
   FLOAT64,
   BFLOAT16,
-  // TODO(Inference): support more data types if needed.
 };
 
 enum class PlaceType { kUNK = -1, kCPU, kGPU, kXPU, kIPU, kCUSTOM };

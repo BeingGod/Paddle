@@ -426,8 +426,14 @@ std::ostream& operator<<(std::ostream& os, AttributeType attr_type) {
     case AttributeType::INT32:
       os << "int";
       break;
+    case AttributeType::UINT32:
+      os << "uint32_t";
+      break;
     case AttributeType::INT64:
       os << "int64_t";
+      break;
+    case AttributeType::UINT64:
+      os << "uint64_t";
       break;
     case AttributeType::FLOAT32:
       os << "float";
@@ -444,8 +450,14 @@ std::ostream& operator<<(std::ostream& os, AttributeType attr_type) {
     case AttributeType::INT32S:
       os << "vector<int>";
       break;
+    case AttributeType::UINT32S:
+      os << "vector<uint32_t>";
+      break;
     case AttributeType::INT64S:
       os << "vector<int64_t>";
+      break;
+    case AttributeType::UINT64S:
+      os << "vector<uint64_t>";
       break;
     case AttributeType::FLOAT32S:
       os << "vector<float>";

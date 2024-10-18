@@ -792,6 +792,10 @@ CompatInferMetaContext BuildInferMetaContext(InferShapeContext* ctx,
             case phi::AttributeType::INT32:
               infer_meta_context.EmplaceBackAttr(PADDLE_GET_CONST(int, attr));
               break;
+            case phi::AttributeType::UINT32:
+              infer_meta_context.EmplaceBackAttr(
+                  PADDLE_GET_CONST(int32_t, attr));
+              break;
             case phi::AttributeType::BOOL:
               infer_meta_context.EmplaceBackAttr(PADDLE_GET_CONST(bool, attr));
               break;
@@ -799,9 +803,17 @@ CompatInferMetaContext BuildInferMetaContext(InferShapeContext* ctx,
               infer_meta_context.EmplaceBackAttr(
                   PADDLE_GET_CONST(int64_t, attr));
               break;
+            case phi::AttributeType::UINT64:
+              infer_meta_context.EmplaceBackAttr(
+                  PADDLE_GET_CONST(uint64_t, attr));
+              break;
             case phi::AttributeType::INT32S:
               infer_meta_context.EmplaceBackAttr(
                   PADDLE_GET_CONST(std::vector<int>, attr));
+              break;
+            case phi::AttributeType::UINT32S:
+              infer_meta_context.EmplaceBackAttr(
+                  PADDLE_GET_CONST(std::vector<uint32_t>, attr));
               break;
             case phi::AttributeType::DATA_TYPE: {
               auto data_type = paddle::framework::TransToPhiDataType(
@@ -833,6 +845,10 @@ CompatInferMetaContext BuildInferMetaContext(InferShapeContext* ctx,
                       "construct KernelContext.",
                       attr_names[i]));
               }
+              break;
+            case phi::AttributeType::UINT64S:
+              infer_meta_context.EmplaceBackAttr(
+                  PADDLE_GET_CONST(std::vector<uint64_t>, attr));
               break;
             case phi::AttributeType::FLOAT32S:  // NOLINT
               infer_meta_context.EmplaceBackAttr(

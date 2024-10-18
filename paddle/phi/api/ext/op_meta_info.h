@@ -325,18 +325,19 @@ struct KernelFuncImpl<Return (*)(Args...), impl_fn> {
 
   PD_SPECIALIZE_ComputeCallHelper(bool);
   PD_SPECIALIZE_ComputeCallHelper(int);
+  PD_SPECIALIZE_ComputeCallHelper(uint32_t);
   PD_SPECIALIZE_ComputeCallHelper(float);
+  PD_SPECIALIZE_ComputeCallHelper(double);
   PD_SPECIALIZE_ComputeCallHelper(int64_t);
+  PD_SPECIALIZE_ComputeCallHelper(uint64_t);
   PD_SPECIALIZE_ComputeCallHelper(const std::string&);
   PD_SPECIALIZE_ComputeCallHelper(const std::vector<int>&);
+  PD_SPECIALIZE_ComputeCallHelper(const std::vector<uint32_t>&);
   PD_SPECIALIZE_ComputeCallHelper(const std::vector<float>&);
+  PD_SPECIALIZE_ComputeCallHelper(const std::vector<double>&);
   PD_SPECIALIZE_ComputeCallHelper(const std::vector<int64_t>&);
+  PD_SPECIALIZE_ComputeCallHelper(const std::vector<uint64_t>&);
   PD_SPECIALIZE_ComputeCallHelper(const std::vector<std::string>&);
-  // TODO(chenweihang): support other attribute type if needed.
-  // Why not support other attribute type here?
-  // - paddle::blank, std::vector<bool> and std::vector<double>
-  //   are not used in op
-  // - BlockDesc* and std::vector<BlockDesc*> are used in framework
 
   // NOTE(chenweihang): Used to be compatible with the 2.0.1 released
   // interface, and will be deprecated in the future

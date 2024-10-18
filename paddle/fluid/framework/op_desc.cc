@@ -943,6 +943,7 @@ struct SetAttrDescVisitor {
   explicit SetAttrDescVisitor(proto::OpDesc::Attr *attr) : attr_(attr) {}
   mutable proto::OpDesc::Attr *attr_;
   void operator()(int v) const { attr_->set_i(v); }
+  void operator()(uint32_t v) const { attr_->set_i(v); }
   void operator()(float v) const { attr_->set_f(v); }
   void operator()(double v) const { attr_->set_float64(v); }
   void operator()(const std::string &v) const { attr_->set_s(v); }
@@ -960,6 +961,9 @@ struct SetAttrDescVisitor {
   }
 
   void operator()(const std::vector<int> &v) const {
+    VectorToRepeated(v, attr_->mutable_ints());
+  }
+  void operator()(const std::vector<uint32_t> &v) const {
     VectorToRepeated(v, attr_->mutable_ints());
   }
   void operator()(const std::vector<float> &v) const {
@@ -1004,7 +1008,13 @@ struct SetAttrDescVisitor {
 
   void operator()(int64_t v) const { attr_->set_l(v); }
 
+  void operator()(uint64_t v) const { attr_->set_l(v); }
+
   void operator()(const std::vector<int64_t> &v) const {
+    VectorToRepeated(v, attr_->mutable_longs());
+  }
+
+  void operator()(const std::vector<uint64_t> &v) const {
     VectorToRepeated(v, attr_->mutable_longs());
   }
 

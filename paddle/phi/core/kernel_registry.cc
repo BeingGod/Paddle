@@ -222,8 +222,12 @@ void SetKernelArgsDef(const std::vector<std::type_index>& args_type,
       args_def->AppendAttribute(AttributeType::BOOL);
     } else if (arg_type == std::type_index(typeid(int))) {
       args_def->AppendAttribute(AttributeType::INT32);
+    } else if (arg_type == std::type_index(typeid(uint32_t))) {
+      args_def->AppendAttribute(AttributeType::UINT32);
     } else if (arg_type == std::type_index(typeid(int64_t))) {
       args_def->AppendAttribute(AttributeType::INT64);
+    } else if (arg_type == std::type_index(typeid(uint64_t))) {
+      args_def->AppendAttribute(AttributeType::UINT64);
     } else if (arg_type == std::type_index(typeid(float))) {
       args_def->AppendAttribute(AttributeType::FLOAT32);
     } else if (arg_type == std::type_index(typeid(double))) {
@@ -235,8 +239,14 @@ void SetKernelArgsDef(const std::vector<std::type_index>& args_type,
     } else if (arg_type == std::type_index(typeid(const std::vector<int>&))) {
       args_def->AppendAttribute(AttributeType::INT32S);
     } else if (arg_type ==
+               std::type_index(typeid(const std::vector<uint32_t>&))) {
+      args_def->AppendAttribute(AttributeType::UINT32S);
+    } else if (arg_type ==
                std::type_index(typeid(const std::vector<int64_t>&))) {
       args_def->AppendAttribute(AttributeType::INT64S);
+    } else if (arg_type ==
+               std::type_index(typeid(const std::vector<uint64_t>&))) {
+      args_def->AppendAttribute(AttributeType::UINT64S);
     } else if (arg_type == std::type_index(typeid(const std::vector<float>&))) {
       args_def->AppendAttribute(AttributeType::FLOAT32S);
     } else if (arg_type ==
@@ -263,5 +273,5 @@ void SetKernelArgsDef(const std::vector<std::type_index>& args_type,
           "Unsupported kernel argument type `%s`.", arg_type.name()));
     }
   }
-}
+}  // namespace phi
 }  // namespace phi

@@ -97,6 +97,34 @@ struct ExtractAttribute<bool> {
 };
 
 template <>
+struct ExtractAttribute<uint32_t> {
+  explicit ExtractAttribute(const std::string& attr_name)
+      : attr_name_(attr_name) {}
+
+  uint32_t* operator()(Attribute& attr) const {
+    if (attr.type() == typeid(int)) {  // NOLINT
+      int val = PADDLE_GET_CONST(int, attr);
+      attr = static_cast<uint32_t>(val);
+    } else if (attr.type() == typeid(float)) {  // NOLINT
+      int val = PADDLE_GET_CONST(float, attr);
+      attr = static_cast<uint32_t>(val);
+    }
+    uint32_t* attr_value = nullptr;
+    try {
+      attr_value = &paddle::get<uint32_t>(attr);
+    } catch (paddle::bad_variant_access const& bad_get) {
+      PADDLE_THROW(common::errors::InvalidArgument(
+          "Cannot get attribute (%s) by type uint32_t, its type is %s.",
+          attr_name_,
+          common::demangle(attr.type().name())));
+    }
+    return attr_value;
+  }
+
+  const std::string& attr_name_;
+};
+
+template <>
 struct ExtractAttribute<int64_t> {
   explicit ExtractAttribute(const std::string& attr_name)
       : attr_name_(attr_name) {}
@@ -115,6 +143,66 @@ struct ExtractAttribute<int64_t> {
     } catch (paddle::bad_variant_access const& bad_get) {
       PADDLE_THROW(common::errors::InvalidArgument(
           "Cannot get attribute (%s) by type int64_t, its type is %s.",
+          attr_name_,
+          common::demangle(attr.type().name())));
+    }
+    return attr_value;
+  }
+
+  const std::string& attr_name_;
+};
+
+template <>
+struct ExtractAttribute<uint64_t> {
+  explicit ExtractAttribute(const std::string& attr_name)
+      : attr_name_(attr_name) {}
+
+  uint64_t* operator()(Attribute& attr) const {
+    if (attr.type() == typeid(int)) {  // NOLINT
+      int val = PADDLE_GET_CONST(int, attr);
+      attr = static_cast<uint64_t>(val);
+    } else if (attr.type() == typeid(float)) {  // NOLINT
+      int val = PADDLE_GET_CONST(float, attr);
+      attr = static_cast<uint64_t>(val);
+    }
+    uint64_t* attr_value = nullptr;
+    try {
+      attr_value = &paddle::get<uint64_t>(attr);
+    } catch (paddle::bad_variant_access const& bad_get) {
+      PADDLE_THROW(common::errors::InvalidArgument(
+          "Cannot get attribute (%s) by type uint64_t, its type is %s.",
+          attr_name_,
+          common::demangle(attr.type().name())));
+    }
+    return attr_value;
+  }
+
+  const std::string& attr_name_;
+};
+
+template <>
+struct ExtractAttribute<std::vector<uint32_t>> {
+  explicit ExtractAttribute(const std::string& attr_name)
+      : attr_name_(attr_name) {}
+
+  std::vector<uint32_t>* operator()(Attribute& attr) const {
+    if (attr.type() == typeid(std::vector<int>)) {  // NOLINT
+      std::vector<int> val = PADDLE_GET_CONST(std::vector<int>, attr);
+      std::vector<uint32_t> vec(val.begin(), val.end());
+      attr = vec;
+    } else if (attr.type() == typeid(std::vector<float>)) {  // NOLINT
+      std::vector<float> val = PADDLE_GET_CONST(std::vector<float>, attr);
+      std::vector<uint32_t> vec(val.begin(), val.end());
+      attr = vec;
+    }
+    std::vector<uint32_t>* attr_value = nullptr;
+    try {
+      attr_value = &paddle::get<std::vector<uint32_t>>(attr);
+    } catch (paddle::bad_variant_access const& bad_get) {
+      PADDLE_THROW(common::errors::InvalidArgument(
+          "Cannot get attribute (%s) by type std::vector<uint32_t>, its type "
+          "is "
+          "%s.",
           attr_name_,
           common::demangle(attr.type().name())));
     }
@@ -145,6 +233,38 @@ struct ExtractAttribute<std::vector<int64_t>> {
     } catch (paddle::bad_variant_access const& bad_get) {
       PADDLE_THROW(common::errors::InvalidArgument(
           "Cannot get attribute (%s) by type std::vector<int64_t>, its type is "
+          "%s.",
+          attr_name_,
+          common::demangle(attr.type().name())));
+    }
+    return attr_value;
+  }
+
+  const std::string& attr_name_;
+};
+
+template <>
+struct ExtractAttribute<std::vector<uint64_t>> {
+  explicit ExtractAttribute(const std::string& attr_name)
+      : attr_name_(attr_name) {}
+
+  std::vector<uint64_t>* operator()(Attribute& attr) const {
+    if (attr.type() == typeid(std::vector<int>)) {  // NOLINT
+      std::vector<int> val = PADDLE_GET_CONST(std::vector<int>, attr);
+      std::vector<uint64_t> vec(val.begin(), val.end());
+      attr = vec;
+    } else if (attr.type() == typeid(std::vector<float>)) {  // NOLINT
+      std::vector<float> val = PADDLE_GET_CONST(std::vector<float>, attr);
+      std::vector<uint64_t> vec(val.begin(), val.end());
+      attr = vec;
+    }
+    std::vector<uint64_t>* attr_value = nullptr;
+    try {
+      attr_value = &paddle::get<std::vector<uint64_t>>(attr);
+    } catch (paddle::bad_variant_access const& bad_get) {
+      PADDLE_THROW(common::errors::InvalidArgument(
+          "Cannot get attribute (%s) by type std::vector<uint64_t>, its type "
+          "is "
           "%s.",
           attr_name_,
           common::demangle(attr.type().name())));

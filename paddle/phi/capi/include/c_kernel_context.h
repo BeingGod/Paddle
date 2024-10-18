@@ -53,7 +53,11 @@ bool PD_KernelContextBoolAttrAt(PD_KernelContext *ctx, size_t index);
 
 int32_t PD_KernelContextInt32AttrAt(PD_KernelContext *ctx, size_t index);
 
+uint32_t PD_KernelContextUInt32AttrAt(PD_KernelContext *ctx, size_t index);
+
 int64_t PD_KernelContextInt64AttrAt(PD_KernelContext *ctx, size_t index);
+
+uint64_t PD_KernelContextUint64AttrAt(PD_KernelContext *ctx, size_t index);
 
 float PD_KernelContextFloatAttrAt(PD_KernelContext *ctx, size_t index);
 
@@ -75,7 +79,11 @@ PD_List PD_KernelContextListBoolAttrAt(PD_KernelContext *ctx, size_t index);
 
 PD_List PD_KernelContextListInt32AttrAt(PD_KernelContext *ctx, size_t index);
 
+PD_List PD_KernelContextListUInt32AttrAt(PD_KernelContext *ctx, size_t index);
+
 PD_List PD_KernelContextListInt64AttrAt(PD_KernelContext *ctx, size_t index);
+
+PD_List PD_KernelContextListUint64AttrAt(PD_KernelContext *ctx, size_t index);
 
 PD_List PD_KernelContextListFloatAttrAt(PD_KernelContext *ctx, size_t index);
 
@@ -95,7 +103,11 @@ PD_DataLayout PD_DatatLayoutAttr(void *attr);
 
 PD_List PD_ListInt32Attr(void *attr);
 
+PD_List PD_ListUInt32Attr(void *attr);
+
 PD_List PD_ListInt64Attr(void *attr);
+
+PD_List PD_ListUint64Attr(void *attr);
 
 PD_List PD_ListFloatAttr(void *attr);
 

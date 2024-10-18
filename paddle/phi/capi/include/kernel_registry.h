@@ -234,8 +234,18 @@ inline int32_t PD_AttrAt<int32_t>(PD_KernelContext *ctx, size_t index) {
 }
 
 template <>
+inline uint32_t PD_AttrAt<uint32_t>(PD_KernelContext *ctx, size_t index) {
+  return PD_KernelContextUInt32AttrAt(ctx, index);
+}
+
+template <>
 inline int64_t PD_AttrAt<int64_t>(PD_KernelContext *ctx, size_t index) {
   return PD_KernelContextInt64AttrAt(ctx, index);
+}
+
+template <>
+inline uint64_t PD_AttrAt<uint64_t>(PD_KernelContext *ctx, size_t index) {
+  return PD_KernelContextUint64AttrAt(ctx, index);
 }
 
 template <>
@@ -274,11 +284,29 @@ inline std::vector<int32_t> PD_AttrAt<std::vector<int32_t>>(
 }
 
 template <>
+inline std::vector<int32_t> PD_AttrAt<std::vector<uint32_t>>(
+    PD_KernelContext *ctx, size_t index) {
+  auto list = PD_KernelContextListUInt32AttrAt(ctx, index);
+  auto data = reinterpret_cast<uint32_t *>(list.data);
+  std::vector<uint32_t> cc_list(data, data + list.size);
+  return cc_list;
+}
+
+template <>
 inline std::vector<int64_t> PD_AttrAt<std::vector<int64_t>>(
     PD_KernelContext *ctx, size_t index) {
   auto list = PD_KernelContextListInt64AttrAt(ctx, index);
   auto data = reinterpret_cast<int64_t *>(list.data);
   std::vector<int64_t> cc_list(data, data + list.size);
+  return cc_list;
+}
+
+template <>
+inline std::vector<uint64_t> PD_AttrAt<std::vector<uint64_t>>(
+    PD_KernelContext *ctx, size_t index) {
+  auto list = PD_KernelContextListUint64AttrAt(ctx, index);
+  auto data = reinterpret_cast<uint64_t *>(list.data);
+  std::vector<uint64_t> cc_list(data, data + list.size);
   return cc_list;
 }
 
@@ -506,28 +534,32 @@ inline std::vector<bool> PD_InferMetaAttrAt<std::vector<bool>>(
   return list;
 }
 
-#define CPP_TYPE_TO_PD_ARG_TYPE_REGISTER(_)                                 \
-  _(phi::capi::DenseTensor, ::PD_KernelArgumentType::PD_ARG_TYPE_TENSOR)    \
-  _(phi::capi::DeviceContext, ::PD_KernelArgumentType::PD_ARG_TYPE_CONTEXT) \
-  _(bool, ::PD_KernelArgumentType::PD_ARG_TYPE_BOOL)                        \
-  _(float, ::PD_KernelArgumentType::PD_ARG_TYPE_FLOAT32)                    \
-  _(double, ::PD_KernelArgumentType::PD_ARG_TYPE_FLOAT64)                   \
-  _(int32_t, ::PD_KernelArgumentType::PD_ARG_TYPE_INT32)                    \
-  _(int64_t, ::PD_KernelArgumentType::PD_ARG_TYPE_INT64)                    \
-  _(PD_DataType, ::PD_KernelArgumentType::PD_ARG_TYPE_DATA_TYPE)            \
-  _(PD_DataLayout, ::PD_KernelArgumentType::PD_ARG_TYPE_DATA_LAYOUT)        \
-  _(std::vector<int32_t>, ::PD_KernelArgumentType::PD_ARG_TYPE_LIST_INT32)  \
-  _(std::vector<int64_t>, ::PD_KernelArgumentType::PD_ARG_TYPE_LIST_INT64)  \
-  _(std::vector<float>, ::PD_KernelArgumentType::PD_ARG_TYPE_LIST_FLOAT32)  \
-  _(std::vector<double>, ::PD_KernelArgumentType::PD_ARG_TYPE_LIST_FLOAT64) \
-  _(std::vector<bool>, ::PD_KernelArgumentType::PD_ARG_TYPE_LIST_BOOL)      \
-  _(std::string, ::PD_KernelArgumentType::PD_ARG_TYPE_STRING)               \
-  _(phi::capi::Scalar, ::PD_KernelArgumentType::PD_ARG_TYPE_SCALAR)         \
-  _(phi::capi::IntArray, ::PD_KernelArgumentType::PD_ARG_TYPE_INT_ARRAY)    \
-  _(phi::capi::Place, ::PD_KernelArgumentType::PD_ARG_TYPE_PLACE)           \
-  _(std::vector<std::string>,                                               \
-    ::PD_KernelArgumentType::PD_ARG_TYPE_LIST_STRING)                       \
-  _(std::vector<phi::capi::Scalar>,                                         \
+#define CPP_TYPE_TO_PD_ARG_TYPE_REGISTER(_)                                  \
+  _(phi::capi::DenseTensor, ::PD_KernelArgumentType::PD_ARG_TYPE_TENSOR)     \
+  _(phi::capi::DeviceContext, ::PD_KernelArgumentType::PD_ARG_TYPE_CONTEXT)  \
+  _(bool, ::PD_KernelArgumentType::PD_ARG_TYPE_BOOL)                         \
+  _(float, ::PD_KernelArgumentType::PD_ARG_TYPE_FLOAT32)                     \
+  _(double, ::PD_KernelArgumentType::PD_ARG_TYPE_FLOAT64)                    \
+  _(int32_t, ::PD_KernelArgumentType::PD_ARG_TYPE_INT32)                     \
+  _(uint32_t, ::PD_KernelArgumentType::PD_ARG_TYPE_UINT32)                   \
+  _(int64_t, ::PD_KernelArgumentType::PD_ARG_TYPE_INT64)                     \
+  _(uint64_t, ::PD_KernelArgumentType::PD_ARG_TYPE_UINT64)                   \
+  _(PD_DataType, ::PD_KernelArgumentType::PD_ARG_TYPE_DATA_TYPE)             \
+  _(PD_DataLayout, ::PD_KernelArgumentType::PD_ARG_TYPE_DATA_LAYOUT)         \
+  _(std::vector<int32_t>, ::PD_KernelArgumentType::PD_ARG_TYPE_LIST_INT32)   \
+  _(std::vector<uint32_t>, ::PD_KernelArgumentType::PD_ARG_TYPE_LIST_UINT32) \
+  _(std::vector<int64_t>, ::PD_KernelArgumentType::PD_ARG_TYPE_LIST_INT64)   \
+  _(std::vector<uint64_t>, ::PD_KernelArgumentType::PD_ARG_TYPE_LIST_UINT64) \
+  _(std::vector<float>, ::PD_KernelArgumentType::PD_ARG_TYPE_LIST_FLOAT32)   \
+  _(std::vector<double>, ::PD_KernelArgumentType::PD_ARG_TYPE_LIST_FLOAT64)  \
+  _(std::vector<bool>, ::PD_KernelArgumentType::PD_ARG_TYPE_LIST_BOOL)       \
+  _(std::string, ::PD_KernelArgumentType::PD_ARG_TYPE_STRING)                \
+  _(phi::capi::Scalar, ::PD_KernelArgumentType::PD_ARG_TYPE_SCALAR)          \
+  _(phi::capi::IntArray, ::PD_KernelArgumentType::PD_ARG_TYPE_INT_ARRAY)     \
+  _(phi::capi::Place, ::PD_KernelArgumentType::PD_ARG_TYPE_PLACE)            \
+  _(std::vector<std::string>,                                                \
+    ::PD_KernelArgumentType::PD_ARG_TYPE_LIST_STRING)                        \
+  _(std::vector<phi::capi::Scalar>,                                          \
     ::PD_KernelArgumentType::PD_ARG_TYPE_LIST_SCALAR)
 
 template <typename T>

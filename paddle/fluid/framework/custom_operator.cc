@@ -160,26 +160,41 @@ static void RunKernelFunc(
       kernel_ctx.EmplaceBackAttr(ctx.Attr<bool>(attr_name));
     } else if (attr_type_str == "int") {
       kernel_ctx.EmplaceBackAttr(ctx.Attr<int>(attr_name));
+    } else if (attr_type_str == "uint32_t") {
+      kernel_ctx.EmplaceBackAttr(ctx.Attr<uint32_t>(attr_name));
     } else if (attr_type_str == "float") {
       kernel_ctx.EmplaceBackAttr(ctx.Attr<float>(attr_name));
+    } else if (attr_type_str == "double") {
+      kernel_ctx.EmplaceBackAttr(ctx.Attr<double>(attr_name));
     } else if (attr_type_str == "int64_t") {
       kernel_ctx.EmplaceBackAttr(ctx.Attr<int64_t>(attr_name));
+    } else if (attr_type_str == "uint64_t") {
+      kernel_ctx.EmplaceBackAttr(ctx.Attr<uint64_t>(attr_name));
     } else if (attr_type_str == "std::string") {
       kernel_ctx.EmplaceBackAttr(ctx.Attr<std::string>(attr_name));
     } else if (attr_type_str == "std::vector<int>") {
       kernel_ctx.EmplaceBackAttr(ctx.Attr<std::vector<int>>(attr_name));
+    } else if (attr_type_str == "std::vector<uint32_t>") {
+      kernel_ctx.EmplaceBackAttr(ctx.Attr<std::vector<uint32_t>>(attr_name));
     } else if (attr_type_str == "std::vector<float>") {
       kernel_ctx.EmplaceBackAttr(ctx.Attr<std::vector<float>>(attr_name));
+    } else if (attr_type_str == "std::vector<double>") {
+      kernel_ctx.EmplaceBackAttr(ctx.Attr<std::vector<double>>(attr_name));
     } else if (attr_type_str == "std::vector<int64_t>") {
       kernel_ctx.EmplaceBackAttr(ctx.Attr<std::vector<int64_t>>(attr_name));
+    } else if (attr_type_str == "std::vector<uint64_t>") {
+      kernel_ctx.EmplaceBackAttr(ctx.Attr<std::vector<uint64_t>>(attr_name));
     } else if (attr_type_str == "std::vector<std::string>") {
       kernel_ctx.EmplaceBackAttr(ctx.Attr<std::vector<std::string>>(attr_name));
     } else {
       PADDLE_THROW(common::errors::Unimplemented(
           "Unsupported `%s` type value as custom attribute now. "
-          "Supported data types include `bool`, `int`, `float`, "
-          "`int64_t`, `std::string`, `std::vector<int>`, "
-          "`std::vector<float>`, `std::vector<int64_t>`, "
+          "Supported data types include `bool`, `int`, `uint32_t`, "
+          "`float`,`double`, "
+          "`int64_t`, `uint64_t`, `std::string`, "
+          "`std::vector<int>`,`std::vector<uint32_t>`, "
+          "`std::vector<float>`, `std::vector<double>`, "
+          "`std::vector<int64_t>`, `std::vector<uint64_t>`, "
           "`std::vector<std::string>`, Please check whether "
           "the attribute data type and data type string are matched.",
           attr_type_str));
@@ -1369,17 +1384,27 @@ void PD_RegisterOperator(const char* kernel_name_cstr,
         op_attrs.push_back("Attr_" + std::to_string(i) + ":int");
       } else if (attr_type == PD_KernelArgumentType::PD_ARG_TYPE_FLOAT32) {
         op_attrs.push_back("Attr_" + std::to_string(i) + ":float");
+      } else if (attr_type == PD_KernelArgumentType::PD_ARG_TYPE_FLOAT64) {
+        op_attrs.push_back("Attr_" + std::to_string(i) + ":double");
       } else if (attr_type == PD_KernelArgumentType::PD_ARG_TYPE_INT64) {
         op_attrs.push_back("Attr_" + std::to_string(i) + ":int64_t");
+      } else if (attr_type == PD_KernelArgumentType::PD_ARG_TYPE_UINT64) {
+        op_attrs.push_back("Attr_" + std::to_string(i) + ":uint64_t");
       } else if (attr_type == PD_KernelArgumentType::PD_ARG_TYPE_STRING) {
         op_attrs.push_back("Attr_" + std::to_string(i) + ":std::string");
       } else if (attr_type == PD_KernelArgumentType::PD_ARG_TYPE_LIST_INT32) {
         op_attrs.push_back("Attr_" + std::to_string(i) + ":std::vector<int>");
+      } else if (attr_type == PD_KernelArgumentType::PD_ARG_TYPE_LIST_UINT32) {
+        op_attrs.push_back("Attr_" + std::to_string(i) +
+                           ":std::vector<uint32_t>");
       } else if (attr_type == PD_KernelArgumentType::PD_ARG_TYPE_LIST_FLOAT32) {
         op_attrs.push_back("Attr_" + std::to_string(i) + ":std::vector<float>");
       } else if (attr_type == PD_KernelArgumentType::PD_ARG_TYPE_LIST_INT64) {
         op_attrs.push_back("Attr_" + std::to_string(i) +
                            ":std::vector<int64_t>");
+      } else if (attr_type == PD_KernelArgumentType::PD_ARG_TYPE_LIST_UINT64) {
+        op_attrs.push_back("Attr_" + std::to_string(i) +
+                           ":std::vector<uint64_t>");
       } else if (attr_type == PD_KernelArgumentType::PD_ARG_TYPE_LIST_STRING) {
         op_attrs.push_back("Attr_" + std::to_string(i) +
                            ":std::vector<std::string>");

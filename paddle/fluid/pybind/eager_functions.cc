@@ -633,9 +633,15 @@ PyObject* eager_api_run_custom_op(PyObject* self,
     } else if (attr_type_str == "int") {
       ctx.EmplaceBackAttr(
           CastPyArg2AttrInt(obj, attr_start_idx + i));  // NOLINT
+    } else if (attr_type_str == "uint32_t") {
+      ctx.EmplaceBackAttr(
+          CastPyArg2AttrUInt32(obj, attr_start_idx + i));  // NOLINT
     } else if (attr_type_str == "float") {
       ctx.EmplaceBackAttr(
           CastPyArg2AttrFloat(obj, attr_start_idx + i));  // NOLINT
+    } else if (attr_type_str == "double") {
+      ctx.EmplaceBackAttr(
+          CastPyArg2AttrDouble(obj, attr_start_idx + i));  // NOLINT
     } else if (attr_type_str == "int64_t") {
       ctx.EmplaceBackAttr(
           CastPyArg2Long(obj, op_type, attr_start_idx + i));  // NOLINT
@@ -644,11 +650,18 @@ PyObject* eager_api_run_custom_op(PyObject* self,
           CastPyArg2AttrString(obj, attr_start_idx + i));  // NOLINT
     } else if (attr_type_str == "std::vector<int>") {      // NOLINT
       ctx.EmplaceBackAttr(CastPyArg2VectorOfInt(obj, attr_start_idx + i));
+    } else if (attr_type_str == "std::vector<uint32_t>") {  // NOLINT
+      ctx.EmplaceBackAttr(CastPyArg2VectorOfUInt32(obj, attr_start_idx + i));
     } else if (attr_type_str == "std::vector<float>") {
       ctx.EmplaceBackAttr(CastPyArg2VectorOfFloat(obj, attr_start_idx + i));
+    } else if (attr_type_str == "std::vector<double>") {
+      ctx.EmplaceBackAttr(CastPyArg2VectorOfDouble(obj, attr_start_idx + i));
     } else if (attr_type_str == "std::vector<int64_t>") {
       ctx.EmplaceBackAttr(
           CastPyArg2Longs(obj, op_type, attr_start_idx + i));  // NOLINT
+    } else if (attr_type_str == "std::vector<uint64_t>") {
+      ctx.EmplaceBackAttr(
+          CastPyArg2VectorOfUInt64(obj, attr_start_idx + i));  // NOLINT
     } else if (attr_type_str == "std::vector<std::string>") {
       ctx.EmplaceBackAttr(
           CastPyArg2VectorOfString(obj, attr_start_idx + i));  // NOLINT

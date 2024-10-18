@@ -3518,6 +3518,10 @@ void OperatorWithKernel::BuildPhiKernelContext(
             phi_kernel_context->EmplaceBackAttr(
                 PADDLE_GET_CONST(int, attr_iter->second));
             break;
+          case phi::AttributeType::UINT32:
+            phi_kernel_context->EmplaceBackAttr(
+                PADDLE_GET_CONST(uint32_t, attr_iter->second));
+            break;
           case phi::AttributeType::BOOL:
             phi_kernel_context->EmplaceBackAttr(
                 PADDLE_GET_CONST(bool, attr_iter->second));
@@ -3526,9 +3530,17 @@ void OperatorWithKernel::BuildPhiKernelContext(
             phi_kernel_context->EmplaceBackAttr(
                 PADDLE_GET_CONST(int64_t, attr_iter->second));
             break;
+          case phi::AttributeType::UINT64:
+            phi_kernel_context->EmplaceBackAttr(
+                PADDLE_GET_CONST(uint64_t, attr_iter->second));
+            break;
           case phi::AttributeType::INT32S:  // NOLINT
             phi_kernel_context->EmplaceBackAttr(
                 PADDLE_GET_CONST(std::vector<int>, attr_iter->second));
+            break;
+          case phi::AttributeType::UINT32S:  // NOLINT
+            phi_kernel_context->EmplaceBackAttr(
+                PADDLE_GET_CONST(std::vector<uint32_t>, attr_iter->second));
             break;
           case phi::AttributeType::BOOLS:
             phi_kernel_context->EmplaceBackAttr(
@@ -3564,6 +3576,10 @@ void OperatorWithKernel::BuildPhiKernelContext(
                     "construct KernelContext.",
                     attr_names[i]));
             }
+            break;
+          case phi::AttributeType::UINT64S:  // NOLINT
+            phi_kernel_context->EmplaceBackAttr(
+                PADDLE_GET_CONST(std::vector<uint64_t>, attr_iter->second));
             break;
           case phi::AttributeType::FLOAT32S:  // NOLINT
             phi_kernel_context->EmplaceBackAttr(

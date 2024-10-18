@@ -129,13 +129,17 @@ const Attribute& KernelContext::AttrAt(size_t idx) const {
 
 template const bool& KernelContext::AttrAt(size_t idx) const;
 template const int& KernelContext::AttrAt(size_t idx) const;
+template const uint32_t& KernelContext::AttrAt(size_t idx) const;
 template const int64_t& KernelContext::AttrAt(size_t idx) const;
+template const uint64_t& KernelContext::AttrAt(size_t idx) const;
 template const float& KernelContext::AttrAt(size_t idx) const;
 template const double& KernelContext::AttrAt(size_t idx) const;
 template const std::string& KernelContext::AttrAt(size_t idx) const;
 template const std::vector<bool>& KernelContext::AttrAt(size_t idx) const;
 template const std::vector<int>& KernelContext::AttrAt(size_t idx) const;
+template const std::vector<uint32_t>& KernelContext::AttrAt(size_t idx) const;
 template const std::vector<int64_t>& KernelContext::AttrAt(size_t idx) const;
+template const std::vector<uint64_t>& KernelContext::AttrAt(size_t idx) const;
 template const std::vector<float>& KernelContext::AttrAt(size_t idx) const;
 template const std::vector<double>& KernelContext::AttrAt(size_t idx) const;
 template const std::vector<std::string>& KernelContext::AttrAt(

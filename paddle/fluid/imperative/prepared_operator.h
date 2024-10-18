@@ -585,15 +585,25 @@ void BuildDygraphPhiKernelContext(const phi::KernelSignature& kernel_signature,
           case phi::AttributeType::INT32:
             kernel_ctx->EmplaceBackAttr(PADDLE_GET_CONST(int, attr));
             break;
+          case phi::AttributeType::UINT32:
+            kernel_ctx->EmplaceBackAttr(PADDLE_GET_CONST(uint32_t, attr));
+            break;
           case phi::AttributeType::BOOL:
             kernel_ctx->EmplaceBackAttr(PADDLE_GET_CONST(bool, attr));
             break;
           case phi::AttributeType::INT64:
             kernel_ctx->EmplaceBackAttr(PADDLE_GET_CONST(int64_t, attr));
             break;
+          case phi::AttributeType::UINT64:
+            kernel_ctx->EmplaceBackAttr(PADDLE_GET_CONST(uint64_t, attr));
+            break;
           case phi::AttributeType::INT32S:
             kernel_ctx->EmplaceBackAttr(
                 PADDLE_GET_CONST(std::vector<int>, attr));
+            break;
+          case phi::AttributeType::UINT32S:
+            kernel_ctx->EmplaceBackAttr(
+                PADDLE_GET_CONST(std::vector<uint32_t>, attr));
             break;
           case phi::AttributeType::DATA_TYPE: {
             auto data_type = framework::TransToPhiDataType(
@@ -626,6 +636,10 @@ void BuildDygraphPhiKernelContext(const phi::KernelSignature& kernel_signature,
                     attr_names[i]));
             }
           } break;
+          case phi::AttributeType::UINT64S:
+            kernel_ctx->EmplaceBackAttr(
+                PADDLE_GET_CONST(std::vector<uint64_t>, attr));
+            break;
           case phi::AttributeType::FLOAT32S:
             kernel_ctx->EmplaceBackAttr(
                 PADDLE_GET_CONST(std::vector<float>, attr));

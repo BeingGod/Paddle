@@ -1099,8 +1099,14 @@ PADDLE_API {self.get_return_type(inplace_flag=True)} {api_func_name}({self.get_d
 {code_indent}      case DataType::INT32:
 {code_indent}          attrs["{attr_name}"] = static_cast<int32_t>({attr_name}.to<int32_t>());
 {code_indent}          break;
+{code_indent}      case DataType::UINT32:
+{code_indent}          attrs["{attr_name}"] = static_cast<uint32_t>({attr_name}.to<uint32_t>());
+{code_indent}          break;
 {code_indent}      case DataType::INT64:
 {code_indent}          attrs["{attr_name}"] = static_cast<int64_t>({attr_name}.to<int64_t>());
+{code_indent}          break;
+{code_indent}      case DataType::UINT64:
+{code_indent}          attrs["{attr_name}"] = static_cast<uint64_t>({attr_name}.to<uint64_t>());
 {code_indent}          break;
 {code_indent}      case DataType::INT16:
 {code_indent}          attrs["{attr_name}"] = static_cast<int16_t>({attr_name}.to<int16_t>());
